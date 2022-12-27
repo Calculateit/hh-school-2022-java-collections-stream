@@ -19,9 +19,6 @@ public class Task8 {
 
   //Не хотим выдывать апи нашу фальшивую персону, поэтому конвертим начиная со второй
   public List<String> getNames(List<Person> persons) {
-    if (persons.size() == 0) {
-      return Collections.emptyList();
-    }
     return persons.stream()
             .skip(1)
             .map(Person::getFirstName)
@@ -45,14 +42,21 @@ public class Task8 {
     return persons.stream().collect(
             Collectors.toMap(
                     Person::getId,
-                    Person::getFirstName
+                    Person::getFirstName,
+                    (existingValue, newValue) -> existingValue
             )
     );
   }
 
   // есть ли совпадающие в двух коллекциях персоны?
   public boolean hasSamePersons(Collection<Person> persons1, Collection<Person> persons2) {
-    return persons1.stream().anyMatch(persons2::contains);
+    Set<Person> person1Set = persons1.stream()
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+
+    return persons2.stream()
+            .filter(Objects::nonNull)
+            .anyMatch(person1Set::contains);
   }
 
   //...
