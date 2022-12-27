@@ -4,6 +4,7 @@ import common.Person;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 /*
 Задача 3
@@ -13,6 +14,7 @@ public class Task3 {
 
   public static List<Person> sort(Collection<Person> persons) {
     return persons.stream()
+            .filter(Objects::nonNull)
             .sorted(Comparator.comparing(Person::getSecondName)
                     .thenComparing(Person::getFirstName)
                     .thenComparing(Person::getCreatedAt))
